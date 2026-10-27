@@ -1,5 +1,6 @@
 const express = require("express")
-const authroute = require("../src/Routes/auth.route")
+const authroute= require("../src/Routes/auth.route")
+const interviewroute = require("../src/Routes/interview.routes")
 const cookieparser = require("cookie-parser")
 const cors = require("cors")
 
@@ -14,6 +15,7 @@ app.use(cors({
 }))
 
 app.use("/api/auth",authroute)
+app.use("/api/interview",interviewroute)
 
 
 
