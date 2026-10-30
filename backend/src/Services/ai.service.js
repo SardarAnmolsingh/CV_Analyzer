@@ -1,12 +1,9 @@
-import { GoogleGenAI } from "@google/genai";
-const {z}=require("zod")
-const {ztojsonschema, default: zodToJsonSchema}=require("zod-to-json-schema")
+const { GoogleGenAI } = require("@google/genai");
+const { z } = require("zod");
 
-
-
- const ai = new GoogleGenAI({
-    apikey: process.env.api_key_gemini
- })
+const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY
+});
 
 
 const interviewReportSchema = z.object({
@@ -16,7 +13,7 @@ const interviewReportSchema = z.object({
         intention: z.string().describe("The intention of interviewer behind asking this question"),
         answer: z.string().describe("How to answer this question, what points to cover, what approach to take etc.")
     })).describe("Technical questions that can be asked in the interview along with their intention and how to answer them"),
-    behavioralQuestions: z.array(z.object({
+    BehavioralQuestions: z.array(z.object({
         question: z.string().describe("The technical question can be asked in the interview"),
         intention: z.string().describe("The intention of interviewer behind asking this question"),
         answer: z.string().describe("How to answer this question, what points to cover, what approach to take etc.")
@@ -30,16 +27,18 @@ const interviewReportSchema = z.object({
         focus: z.string().describe("The main focus of this day in the preparation plan, e.g. data structures, system design, mock interviews etc."),
         tasks: z.array(z.string()).describe("List of tasks to be done on this day to follow the preparation plan, e.g. read a specific book or article, solve a set of problems, watch a video etc.")
     })).describe("A day-wise preparation plan for the candidate to follow in order to prepare for the interview effectively"),
-    title: z.string().describe("The title of the job for which the interview report is generated"),
+    // jobtitle: z.string().describe("The title of the job for which the interview report is generated"),
 })
+ 
+ async function GenerateInterviewReport ({CV, selfDescription,
+    Jobdescription}){
 
- async function GenerateInterviewReport ({CV,selfdescription,jobDescription}){
+   
 
    const prompt=`Generate the interview report for a candidate using the following details :
           resume: ${CV},
           self-Description: ${selfDescription},
-          job-Description: ${jobDescription}
-   
+          job-Description: ${Jobdescription}
    `
 
    const response = await ai.models.generateContent({
@@ -47,10 +46,25 @@ const interviewReportSchema = z.object({
       contents:prompt,
       config:{
          responseMimeType:"application/json",
-         responseSchema:zodToJsonSchema(interviewReportSchema)
+        responseJsonSchema: interviewReportSchema.toJSONSchema(),
       }
    })
-     return JSON.parse(response.text)
+
+   
+
+   let parsedResponse;
+   try {
+      parsedResponse = JSON.parse(response.text);
+   } catch (error) {
+      throw new Error(`Gemini returned invalid JSON: ${error.message}`);
+   }
+
+   const validation = interviewReportSchema.safeParse(parsedResponse);
+   if (!validation.success) {
+      throw new Error(`Gemini response did not match the interview report schema: ${validation.error.message}`);
+   }
+
+   return validation.data;
  }
 
 module.exports = {GenerateInterviewReport}

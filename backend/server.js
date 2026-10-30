@@ -4,7 +4,9 @@ const app = require("./src/app.js")
 const connectdb= require("./src/Config/database.js")
 
 
+
 connectdb();
+
 
 
 app.listen (3000,()=>{

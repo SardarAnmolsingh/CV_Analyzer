@@ -1,8 +1,8 @@
 const mongoose = require ("mongoose")
 
-const technicalquestionsSchema = new mongoose.Schema({
+const technicalQuestionsSchema = new mongoose.Schema({
              
-             quetion:{
+             question:{
                 type:String,
                 required:[true,"technical question is required"]
              },
@@ -24,7 +24,7 @@ const BehaviourQuestionsSchema =new mongoose.Schema({
         required:[true,"The Behavioralquestion is required"]
       },
       intention:{
-        type:true,
+        type:String,
         required:[true,"Intention is required"]
       },
       answer:{
@@ -36,11 +36,11 @@ const BehaviourQuestionsSchema =new mongoose.Schema({
 
 const skillGapSSchema = new mongoose.Schema({
 
-     skillGap:{
+     skill:{
           type:String,
           required:[true,"the skill required"]
      },
-     Severity:{
+     severity:{
         type:String,
         enum:["low","medium","high"],
         required:[true,"severity is required"]
@@ -77,23 +77,27 @@ resume:{
 selfDescription:{
   type :String
 },
-matchscore:{
+matchScore:{
     type:Number,
     min:0,
     max:100
 },
-technicalquestions:{technicalquestionsSchema},
+technicalQuestions:{technicalQuestionsSchema},
 BehavioralQuestions:{BehaviourQuestionsSchema},
-SkillGap:{skillGapSSchema},
+skillGaps:{skillGapSSchema},
 preparationPlan:{preparationPlanSchema},
-user:{
-    type:mongoose.Schema.Types.ObjectId,
-ref:"users"
-},
-jobtitle:{
-    type :String,
-    required: [true,"the job title is required"]
-}},{timestamps: true})
+// /user:{
+//     type:mongoose.Schema.Types.ObjectId,
+// ref:"users"
+// }
+// jobtitle:{
+//     type :String, 
+//     required: [ true,"the job title is required"]
+// }
+},{timestamps: true});
+
+
+
 
 
 const InterviewReportModel = mongoose.model("InterviewReport",InterviewReportSchema)
@@ -101,41 +105,4 @@ const InterviewReportModel = mongoose.model("InterviewReport",InterviewReportSch
 
 
 
-module.exports=InterviewReportModel
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-})
+module.exports= InterviewReportModel;

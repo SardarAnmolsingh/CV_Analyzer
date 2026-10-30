@@ -9,6 +9,6 @@ const interviewroute = express.Router()
 
 
 
-interviewroute.post("/",authmiddleware.authuser,upload.single("resume"),interviewcontroller.generateInterviewReportcontroller)
+interviewroute.post("/",upload.single("Vikran_Pal_Singh_Resume"),interviewcontroller.generateInterviewReportcontroller)
 
 module.exports = interviewroute
