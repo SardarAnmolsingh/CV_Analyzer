@@ -90,10 +90,10 @@ PreparationPlan:[preparationPlanSchema],
 //     type:mongoose.Schema.Types.ObjectId,
 // ref:"users"
 // }
-// jobtitle:{
-//     type :String, 
-//     required: [ true,"the job title is required"]
-// }
+jobtitle:{
+    type :String, 
+    required: [ true,"the job title is required"]
+}
 },{timestamps: true});
 
 
