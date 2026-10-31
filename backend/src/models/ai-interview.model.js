@@ -32,7 +32,7 @@ const BehaviourQuestionsSchema =new mongoose.Schema({
         required:[true,"Answer is required"]
       }
 
-},{ _is:false})
+},{ _id:false})
 
 const skillGapSSchema = new mongoose.Schema({
 
@@ -67,9 +67,9 @@ const preparationPlanSchema = new mongoose.Schema({
 
 const InterviewReportSchema = new mongoose.Schema({
 
-jobdescription:{
+Jobdescription:{
     type :String,
-    requird:[true,"the job description is required"]
+    required:[true,"the job description is required"]
 },
 resume:{
     type:String
@@ -82,10 +82,10 @@ matchScore:{
     min:0,
     max:100
 },
-technicalQuestions:{technicalQuestionsSchema},
-BehavioralQuestions:{BehaviourQuestionsSchema},
-skillGaps:{skillGapSSchema},
-preparationPlan:{preparationPlanSchema},
+TechnicalQuestions:[technicalQuestionsSchema],
+BehavioralQuestions:[BehaviourQuestionsSchema],
+SkillGaps:[skillGapSSchema],
+PreparationPlan:[preparationPlanSchema],
 // /user:{
 //     type:mongoose.Schema.Types.ObjectId,
 // ref:"users"
