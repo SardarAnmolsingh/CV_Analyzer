@@ -59,13 +59,13 @@ export const useInterview = () => {
         return response.interviewReports
     }
 
-    useEffect(() => {
-        if (interviewId) {
-            getReportById(interviewId)
-        } else {
-            getReports()
-        }
-    }, [ interviewId ])
+    // useEffect(() => {
+    //     if (interviewId) {
+    //         getReportById(interviewId)
+    //     } else {
+    //         getReports()
+    //     }
+    // }, [ interviewId ])
 
     return { loading, report, reports, GenerateReport, getReportById, getReports, }
 }

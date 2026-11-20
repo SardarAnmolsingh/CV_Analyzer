@@ -43,4 +43,4 @@ export const getAllinterviewReports= async()=>{
 
 }
 
-module.exports = {generateReport,getInterviewbyId,getAllinterviewReports}
+

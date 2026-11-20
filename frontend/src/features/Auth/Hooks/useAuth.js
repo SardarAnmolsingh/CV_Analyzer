@@ -12,7 +12,7 @@ export const useAuth = () => {
 
     const handlelogin = async ({ email, password }) => {
 
-        setloading(true)
+       setloading(true)
         try {
             const data = await login({ email, password })
             setuser(data.user)
@@ -52,21 +52,23 @@ export const useAuth = () => {
 
 
 
-    // useEffect(() => {
-    //     const getandsetfunc = async () => {
+    useEffect(() => {
+        const getandsetfunc = async () => {
 
-    //         try {
-    //             const data = await getme()
-    //             setuser(data.user)
-    //         } catch (e) {
-    //             console.log(e)
-    //         } finally {
-    //             setloading(false)
-    //         }
+            try {
+                const data = await getme()
+                setuser(data.user)
+            } catch (e) {
+                console.log(e)
+            } finally {
+                setloading(false)
+            }
 
-    //     }
+        }
 
-    //     getandsetfunc()
+        getandsetfunc()
+        })
+    
  
 
 return { user, loading , handlelogin, handlelogout, handleregister }

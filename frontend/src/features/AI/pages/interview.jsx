@@ -2,6 +2,74 @@ import React, { useState, useEffect } from 'react'
 import { useInterview } from '../Hooks/useinterview'
 import { useParams } from 'react-router'
 
+const DUMMY_REPORT = {
+    id: 'demo-1',
+    matchScore: 84,
+    technicalQuestions: [
+        {
+            question: "How does React's Virtual DOM reconciliation work, and why are keys important in lists?",
+            intention: "Tests your understanding of React's rendering lifecycle and performance optimization.",
+            answer: "React compares the new Virtual DOM tree with the previous one using a diffing algorithm. Keys give elements a stable identity so React can identify which items changed, were added, or were removed instead of re-rendering the entire list.",
+        },
+        {
+            question: "What is the difference between useMemo and useCallback?",
+            intention: "Checks if you know how to prevent unnecessary re-renders and expensive recalculations.",
+            answer: "useMemo caches the result of a function call between re-renders, while useCallback caches the function definition itself so child components receiving it as a prop don't re-render unnecessarily.",
+        },
+        {
+            question: "How would you optimize a React page that renders thousands of rows?",
+            intention: "Evaluates practical frontend performance debugging and virtualization knowledge.",
+            answer: "Use list virtualization (e.g., react-window or TanStack Virtual) to only render visible rows, memoize row components with React.memo, and debounce filter or search inputs.",
+        },
+    ],
+    behavioralQuestions: [
+        {
+            question: "Tell me about a time you had to debug a difficult production issue under a tight deadline.",
+            intention: "Evaluates your problem-solving process, composure under pressure, and ownership.",
+            answer: "Use the STAR method: describe the bug's impact, how you isolated the root cause using logs/monitoring, the fix you deployed, and the preventative test or alert you added afterward.",
+        },
+        {
+            question: "Describe a situation where you disagreed with a teammate's technical approach.",
+            intention: "Assesses your collaboration, communication skills, and ability to handle conflict constructively.",
+            answer: "Focus on how you listened to their reasoning, backed your point with data or trade-offs (performance, maintainability), and aligned on the best solution for the team.",
+        },
+    ],
+    preparationPlan: [
+        {
+            day: 1,
+            focus: 'Core React & State Management',
+            tasks: [
+                'Review hooks: useEffect cleanup, useRef, and custom hooks',
+                'Practice building a debounced search input from scratch',
+                'Revise Context API vs. Redux trade-offs',
+            ],
+        },
+        {
+            day: 2,
+            focus: 'System Design & Performance',
+            tasks: [
+                'Walk through frontend architecture for a real-time dashboard',
+                'Review caching strategies, lazy loading, and code splitting',
+                'Analyze Core Web Vitals (LCP, INP, CLS)',
+            ],
+        },
+        {
+            day: 3,
+            focus: 'Behavioral Prep & Mock Interview',
+            tasks: [
+                'Prepare 3–4 STAR stories covering conflict, leadership, and failure',
+                'Do one 45-minute timed mock interview',
+                'Review resume projects and prepare metrics for each',
+            ],
+        },
+    ],
+    skillGaps: [
+        { skill: 'System Design', severity: 'high' },
+        { skill: 'TypeScript Generics', severity: 'medium' },
+        { skill: 'Unit Testing (Jest)', severity: 'low' },
+    ],
+}
+
 const NAV_ITEMS = [
     {
         id: 'technical',
@@ -123,7 +191,10 @@ const Interview = () => {
         }
     }, [interviewId])
 
-    if (loading || !report) {
+    // Uses real report when available, otherwise falls back to dummy data
+    const data = report || DUMMY_REPORT
+
+    if (loading) {
         return (
             <main className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-100">
                 <h1 className="text-lg font-medium animate-pulse text-zinc-400">
@@ -134,9 +205,9 @@ const Interview = () => {
     }
 
     const scoreColor =
-        report.matchScore >= 80
+        data.matchScore >= 80
             ? 'border-emerald-500 text-emerald-400'
-            : report.matchScore >= 60
+            : data.matchScore >= 60
             ? 'border-amber-500 text-amber-400'
             : 'border-red-500 text-red-400'
 
@@ -172,7 +243,7 @@ const Interview = () => {
                     </div>
 
                     <button
-                        onClick={() => getResumePdf(interviewId)}
+                        onClick={() => getResumePdf?.(interviewId)}
                         className="flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 active:scale-[0.99] cursor-pointer"
                     >
                         <svg
@@ -196,11 +267,11 @@ const Interview = () => {
                                     Technical Questions
                                 </h2>
                                 <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-400">
-                                    {report.technicalQuestions.length} questions
+                                    {data.technicalQuestions.length} questions
                                 </span>
                             </div>
                             <div className="space-y-3">
-                                {report.technicalQuestions.map((q, i) => (
+                                {data.technicalQuestions.map((q, i) => (
                                     <QuestionCard key={i} item={q} index={i} />
                                 ))}
                             </div>
@@ -214,11 +285,11 @@ const Interview = () => {
                                     Behavioral Questions
                                 </h2>
                                 <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-400">
-                                    {report.behavioralQuestions.length} questions
+                                    {data.behavioralQuestions.length} questions
                                 </span>
                             </div>
                             <div className="space-y-3">
-                                {report.behavioralQuestions.map((q, i) => (
+                                {data.behavioralQuestions.map((q, i) => (
                                     <QuestionCard key={i} item={q} index={i} />
                                 ))}
                             </div>
@@ -232,11 +303,11 @@ const Interview = () => {
                                     Preparation Road Map
                                 </h2>
                                 <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-400">
-                                    {report.preparationPlan.length}-day plan
+                                    {data.preparationPlan.length}-day plan
                                 </span>
                             </div>
                             <div className="space-y-4">
-                                {report.preparationPlan.map((day) => (
+                                {data.preparationPlan.map((day) => (
                                     <RoadMapDay key={day.day} day={day} />
                                 ))}
                             </div>
@@ -254,7 +325,7 @@ const Interview = () => {
                         <div
                             className={`flex h-28 w-28 items-baseline justify-center rounded-full border-4 bg-zinc-900/50 pt-8 ${scoreColor}`}
                         >
-                            <span className="text-3xl font-bold">{report.matchScore}</span>
+                            <span className="text-3xl font-bold">{data.matchScore}</span>
                             <span className="text-sm font-medium ml-0.5">%</span>
                         </div>
                         <p className="text-xs text-zinc-400">
@@ -270,7 +341,7 @@ const Interview = () => {
                             Skill Gaps
                         </p>
                         <div className="flex flex-wrap gap-2">
-                            {report.skillGaps.map((gap, i) => (
+                            {data.skillGaps.map((gap, i) => (
                                 <span
                                     key={i}
                                     className={`rounded-md border px-2.5 py-1 text-xs font-medium ${
