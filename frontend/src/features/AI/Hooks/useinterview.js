@@ -1,4 +1,4 @@
-import {  generateReport } from "../Services/interview.api"
+import { generateReport,getInterviewbyId,getAllinterviewReports } from "../Services/interview.api"
 import { useContext, useEffect } from "react"
 import { InterviewContext } from "../interview.context"
 import { useParams } from "react-router"
@@ -15,11 +15,11 @@ export const useInterview = () => {
 
     const { loading, setLoading, report, setReport, reports, setReports } = context
 
-    const generateReport = async ({ jobDescription, selfDescription, resumeFile }) => {
+    const GenerateReport = async ({ jobDescription, selfDescription, resumeFile }) => {
         setLoading(true)
         let response = null
         try {
-            response = await generateInterviewReport({ jobDescription, selfDescription, resumeFile })
+            response = await generateReport({ jobDescription, selfDescription, resumeFile })
             setReport(response.interviewReport)
         } catch (error) {
             console.log(error)
@@ -34,7 +34,7 @@ export const useInterview = () => {
         setLoading(true)
         let response = null
         try {
-            response = await getInterviewReportById(interviewId)
+            response = await getInterviewbyId(interviewId)
             setReport(response.interviewReport)
         } catch (error) {
             console.log(error)
@@ -48,7 +48,7 @@ export const useInterview = () => {
         setLoading(true)
         let response = null
         try {
-            response = await getAllInterviewReports()
+            response = await getAllinterviewReports()
             setReports(response.interviewReports)
         } catch (error) {
             console.log(error)
@@ -59,25 +59,6 @@ export const useInterview = () => {
         return response.interviewReports
     }
 
-    const getResumePdf = async (interviewReportId) => {
-        setLoading(true)
-        let response = null
-        try {
-            response = await generateResumePdf({ interviewReportId })
-            const url = window.URL.createObjectURL(new Blob([ response ], { type: "application/pdf" }))
-            const link = document.createElement("a")
-            link.href = url
-            link.setAttribute("download", `resume_${interviewReportId}.pdf`)
-            document.body.appendChild(link)
-            link.click()
-        }
-        catch (error) {
-            console.log(error)
-        } finally {
-            setLoading(false)
-        }
-    }
-
     useEffect(() => {
         if (interviewId) {
             getReportById(interviewId)
@@ -86,5 +67,5 @@ export const useInterview = () => {
         }
     }, [ interviewId ])
 
-    return { loading, report, reports, generateReport, getReportById, getReports, getResumePdf }
+    return { loading, report, reports, GenerateReport, getReportById, getReports, }
 }

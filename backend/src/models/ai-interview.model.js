@@ -86,10 +86,10 @@ TechnicalQuestions:[technicalQuestionsSchema],
 BehavioralQuestions:[BehaviourQuestionsSchema],
 SkillGaps:[skillGapSSchema],
 PreparationPlan:[preparationPlanSchema],
-// /user:{
-//     type:mongoose.Schema.Types.ObjectId,
-// ref:"users"
-// }
+user:{
+    type:mongoose.Schema.Types.ObjectId,
+ref:"users"
+},
 jobtitle:{
     type :String, 
     required: [ true,"the job title is required"]
