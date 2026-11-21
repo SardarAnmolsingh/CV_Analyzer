@@ -105,7 +105,7 @@ res.status(200).json({
 async function getme(req,res){
   const user = await usermodel.findOne(req.user._id)
 
-  res.status(200).jsomn({
+  res.status(200).json({
     message:"the user details fetched successfully",
 
     user:{
