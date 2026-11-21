@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 export const useAuth = () => {
     const context = useContext(Authcontext)
-    const { user, setuser, loading, setloading } = context
+    const { user, setUser, loading, setloading } = context
 
 
 
@@ -15,7 +15,8 @@ export const useAuth = () => {
        setloading(true)
         try {
             const data = await login({ email, password })
-            setuser(data.user)
+            
+            setUser(data.user)
         } catch (e) {
             console.log(e)
         } finally {
@@ -27,7 +28,7 @@ export const useAuth = () => {
         setloading(true)
         try {
             const data = await register({ username, email, password })
-            setuser(data.user)
+            setUser(data.user)
         } catch (e) {
             console.log(e)
         } finally {
@@ -39,7 +40,7 @@ export const useAuth = () => {
         setloading(true)
         try {
             const data = await logout()
-            setuser(null)
+            setUser(null)
         } catch (e) {
             console.log(e)
         } finally {
@@ -49,25 +50,24 @@ export const useAuth = () => {
 
     }
 
-
-
-
-    useEffect(() => {
+useEffect(() => {
         const getandsetfunc = async () => {
 
             try {
-                const data = await getme()
-                setuser(data.user)
+                const data = await  getme()
+                setUser(data.user)
+                console.log(data.user)
             } catch (e) {
                 console.log(e)
             } finally {
                 setloading(false)
             }
-
+            
         }
-
         getandsetfunc()
-        })
+        },[]);
+
+     
     
  
 

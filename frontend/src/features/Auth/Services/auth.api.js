@@ -17,8 +17,8 @@ export async function register({username,email,password}) {
 }
 export async function login({email,password}) {
     try {
-        const response = api.post('/api/auth/login', {email, password }, { withCredentials: true })
-
+        const response = await api.post('/api/auth/login', {email, password }, { withCredentials: true })
+        console.log(response)
         return response.data
     } catch (e) {
         console.log(e)
@@ -27,7 +27,7 @@ export async function login({email,password}) {
 
 export async function logout() {
     try {
-        const response = api.post('/api/auth/logout', { withCredentials: true })
+        const response = await api.post('/api/auth/logout', { withCredentials: true })
 
         return response.data
     } catch (e) {
@@ -37,7 +37,8 @@ export async function logout() {
 
 export async function getme(){
     try{
-      const response = api.get('/api/auth/getme',{withCredentials:true})
+      const response = await api.get('/api/auth/get-me',{withCredentials:true})
+      
       return response.data
     }catch(e){
         console.log(e)
