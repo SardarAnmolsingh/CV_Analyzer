@@ -1,14 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState , useRef } from 'react';
+import { useInterview } from '../Hooks/useinterview';
+import { useNavigate } from 'react-router';
 
 export default function ProfileForm() {
-  const [jobDescription, setJobDescription] = useState('');
-  const [selfDescription, setSelfDescription] = useState('');
-  const [resumeFile, setResumeFile] = useState(null);
 
-  const handleSubmit = (e) => {
+  const {loading,GenerateReport,reports} = useInterview()
+  const [jobDescription, setJobDescription] = useState('')
+  const [selfDescription, setSelfDescription] = useState('')
+
+
+  const navigate = useNavigate()
+
+  const resumeInputRef=useRef()
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ jobDescription, selfDescription, resumeFile });
+    const resumefile = resumeInputRef.current.files[ 0 ]
+    console.log({ jobDescription, selfDescription, resumefile });
+    const data = await GenerateReport({ jobDescription, selfDescription, resumefile })
+    console.log(data)
+    navigate(`/interview/${data._id}`)
+    
   };
+
+  if(loading){
+    return(
+      <h1>loading your data please wait......</h1>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-neutral-950 flex items-center justify-center p-4">
@@ -41,8 +60,8 @@ export default function ProfileForm() {
           <label className="block text-sm text-neutral-300 mb-2">Resume Upload</label>
           <input
             type="file"
+            ref={resumeInputRef}
             accept=".pdf,.doc,.docx"
-            onChange={(e) => setResumeFile(e.target.files ? e.target.files[0] : null)}
             className="w-full text-sm text-neutral-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-600 file:text-white hover:file:bg-red-700 cursor-pointer"
           />
         </div>

@@ -10,6 +10,7 @@ const api = axios.create({
 export const generateReport = async ({ jobDescription, selfDescription, resumefile }) => {
 
     const formData = new FormData()
+    // console.log(resumefile)
     formData.append("jobDescription", jobDescription)
     formData.append("selfDescription", selfDescription)
     formData.append("resume", resumefile)
