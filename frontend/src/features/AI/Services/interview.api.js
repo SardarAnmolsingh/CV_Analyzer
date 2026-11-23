@@ -7,11 +7,11 @@ const api = axios.create({
  *  @Description Service to generate the report based on job description,self description and resume 
  */
 
-export const generateReport = async ({ jobDescription, selfDescription, resumefile }) => {
+export const generateReport = async ({ Jobdescription, selfDescription, resumefile }) => {
 
     const formData = new FormData()
     // console.log(resumefile)
-    formData.append("jobDescription", jobDescription)
+    formData.append("Jobdescription", Jobdescription)
     formData.append("selfDescription", selfDescription)
     formData.append("resume", resumefile)
 
