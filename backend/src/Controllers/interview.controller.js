@@ -8,17 +8,17 @@ const pdfParse = require("pdf-parse")
 async function  generateInterviewReportcontroller (req,res){
  const Resumecontent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
  
- console.log(Resumecontent)
+ 
     const {selfDescription,Jobdescription} =req.body
 
-   console.log(Jobdescription)
+   
     const ReportbyAI = await GenerateInterviewReport({
        CV:Resumecontent.text,
         selfDescription,
         Jobdescription 
     })
 
-    console.log(ReportbyAI)
+    
     const finalReport = await interviewModel.create({
         
         resume: Resumecontent.text,
@@ -26,7 +26,7 @@ async function  generateInterviewReportcontroller (req,res){
         Jobdescription,
         ...ReportbyAI
     }) 
-    console.log(finalReport)
+    
     
     res.status(201).json({
         message: "The interview report is generated successfully",
@@ -38,6 +38,7 @@ async function  generateInterviewReportcontroller (req,res){
 async function generateInterviewReportbyIdcontroller(req,res){
  const {interviewId} = req.params
  const report = await interviewModel.findById(interviewId)
+ console.log(report)
  if(!report){
     return res.status(404).json({
         message:"The interview  report is not found"
