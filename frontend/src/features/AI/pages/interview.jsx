@@ -1,74 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useInterview } from '../Hooks/useinterview'
 import {useParams} from 'react-router'
-
-// const DUMMY_REPORT = {
-//     id: 'demo-1',
-//     matchScore: 84,
-//     technicalQuestions: [
-//         {
-//             question: "How does React's Virtual DOM reconciliation work, and why are keys important in lists?",
-//             intention: "Tests your understanding of React's rendering lifecycle and performance optimization.",
-//             answer: "React compares the new Virtual DOM tree with the previous one using a diffing algorithm. Keys give elements a stable identity so React can identify which items changed, were added, or were removed instead of re-rendering the entire list.",
-//         },
-//         {
-//             question: "What is the difference between useMemo and useCallback?",
-//             intention: "Checks if you know how to prevent unnecessary re-renders and expensive recalculations.",
-//             answer: "useMemo caches the result of a function call between re-renders, while useCallback caches the function definition itself so child components receiving it as a prop don't re-render unnecessarily.",
-//         },
-//         {
-//             question: "How would you optimize a React page that renders thousands of rows?",
-//             intention: "Evaluates practical frontend performance debugging and virtualization knowledge.",
-//             answer: "Use list virtualization (e.g., react-window or TanStack Virtual) to only render visible rows, memoize row components with React.memo, and debounce filter or search inputs.",
-//         },
-//     ],
-//     behavioralQuestions: [
-//         {
-//             question: "Tell me about a time you had to debug a difficult production issue under a tight deadline.",
-//             intention: "Evaluates your problem-solving process, composure under pressure, and ownership.",
-//             answer: "Use the STAR method: describe the bug's impact, how you isolated the root cause using logs/monitoring, the fix you deployed, and the preventative test or alert you added afterward.",
-//         },
-//         {
-//             question: "Describe a situation where you disagreed with a teammate's technical approach.",
-//             intention: "Assesses your collaboration, communication skills, and ability to handle conflict constructively.",
-//             answer: "Focus on how you listened to their reasoning, backed your point with data or trade-offs (performance, maintainability), and aligned on the best solution for the team.",
-//         },
-//     ],
-//     preparationPlan: [
-//         {
-//             day: 1,
-//             focus: 'Core React & State Management',
-//             tasks: [
-//                 'Review hooks: useEffect cleanup, useRef, and custom hooks',
-//                 'Practice building a debounced search input from scratch',
-//                 'Revise Context API vs. Redux trade-offs',
-//             ],
-//         },
-//         {
-//             day: 2,
-//             focus: 'System Design & Performance',
-//             tasks: [
-//                 'Walk through frontend architecture for a real-time dashboard',
-//                 'Review caching strategies, lazy loading, and code splitting',
-//                 'Analyze Core Web Vitals (LCP, INP, CLS)',
-//             ],
-//         },
-//         {
-//             day: 3,
-//             focus: 'Behavioral Prep & Mock Interview',
-//             tasks: [
-//                 'Prepare 3–4 STAR stories covering conflict, leadership, and failure',
-//                 'Do one 45-minute timed mock interview',
-//                 'Review resume projects and prepare metrics for each',
-//             ],
-//         },
-//     ],
-//     skillGaps: [
-//         { skill: 'System Design', severity: 'high' },
-//         { skill: 'TypeScript Generics', severity: 'medium' },
-//         { skill: 'Unit Testing (Jest)', severity: 'low' },
-//     ],
-// }
+import Loading from '../pages/Loading'
 
 const NAV_ITEMS = [
     {
@@ -195,15 +128,10 @@ const Interview = () => {
    
     const data = report 
     
-    console.log(data)
 
     if (loading || data==null) {
         return (
-            <main className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-100">
-                <h1 className="text-lg font-medium animate-pulse text-zinc-400">
-                    Loading your interview plan...
-                </h1>
-            </main>
+         <Loading fullScreen size="lg" label="loading your data chill dude"/>
         )
     }
 

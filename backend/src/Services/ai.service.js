@@ -63,7 +63,7 @@ Do not return markdown.
    `
 
    const response = await ai.models.generateContent({
-      model:"gemini-3-flash-preview",
+      model:"gemini-3.6-flash",
       contents:prompt,
       config:{
          responseMimeType:"application/json",

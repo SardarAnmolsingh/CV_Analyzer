@@ -1,6 +1,7 @@
 import React, { useState , useRef } from 'react';
 import { useInterview } from '../Hooks/useinterview';
 import { useNavigate } from 'react-router';
+import Loading from './Loading';
 
 export default function ProfileForm() {
 
@@ -25,7 +26,7 @@ export default function ProfileForm() {
 
   if(loading){
     return(
-      <h1>loading your data please wait......</h1>
+     <Loading  fullScreen size="lg" label="loading your data chill dude"/>
     )
   }
 
